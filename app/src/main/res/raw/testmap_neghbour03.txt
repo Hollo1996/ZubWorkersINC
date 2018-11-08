@@ -1,0 +1,13 @@
+#Neighbourhood_Seperet
+#Field generation by listing all as a spectrum
+Field:(0;0)--(2;2)
+#A Cross is created by listing the neighborhoods one by one
+Neighbourhood:
+(1;1)-UP#+?>(1;0)
+(1;1)-RI#+->(2;1)
+(1;1)-DO#-->(1;2)
+(1;1)-LE--->(0;1)
+(1;0)-DO-->(1;1)
+(2;1)-LE->(1;1)
+(1;2)-UP>(1;1)
+(0;1)->(1;1)

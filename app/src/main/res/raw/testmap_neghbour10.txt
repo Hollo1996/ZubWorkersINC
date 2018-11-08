@@ -1,0 +1,5 @@
+#Neighbourhood_Specialization
+#Field generation by listing all as a spectrum
+Field:(0;0)--(2;2)
+#A Cross is created by connecting to and from all immadiate neighbourin one line. Modification is added.
+Neighbourhood:(1;1) -UP>(2;2) <AL>(;), (2;2) -UP>(1;0) -DO>(1;1)

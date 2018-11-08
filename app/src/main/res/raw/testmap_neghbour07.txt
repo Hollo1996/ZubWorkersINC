@@ -1,0 +1,6 @@
+#Neighbourhood_Connection
+#Field generation by listing all as a spectrum
+Field:(0;0)--(2;2)
+#A Cross is created by listing four two way neighborhoods (connections) per line
+Neighbourhood:
+(1;1) <>(1;0) <>(2;1) <>(1;2) <>(0;1)

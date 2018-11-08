@@ -1,0 +1,6 @@
+#Neighbourhood_ALLConnected
+#Field generation by listing all as a spectrum
+Field:(0;0)--(2;2)
+#A Cross is created by connecting to and from all immadiate neighbourin one line
+Neighbourhood:
+(1;1)<AL>(;)

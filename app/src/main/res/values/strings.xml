@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ZubWorkersINC</string>
+    <string name="WelcomeText">"HI NEW GUY!\nWELCOME TO THE\nCOMPANY!"</string>
+    <string name="title_activity_game_surface">GameSurface</string>
+    <string name="new_game">New Game</string>
+    <string name="load_game">Load Game</string>
+    <string name="about_us">About Us</string>
+    <string name="testlevel">TestLevel</string>
+    <string name="testlevels">TestLevels</string>
+</resources>

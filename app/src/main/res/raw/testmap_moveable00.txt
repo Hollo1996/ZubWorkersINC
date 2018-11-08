@@ -1,0 +1,6 @@
+#Moveables_Worker
+#Field and immediate directional neighbourhood generation by listing all as a spectrum
+Field:(0;0)<=>(3;3)
+Spawn:(0;0)
+
+

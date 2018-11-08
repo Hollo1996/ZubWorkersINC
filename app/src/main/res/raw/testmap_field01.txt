@@ -1,0 +1,7 @@
+#Field_Seperet 
+#Field generation by listing one per line
+Field:
+(0;0)
+(1;0)
+(0;1)
+(1;1)

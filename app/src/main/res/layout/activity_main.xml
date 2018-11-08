@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="match_parent" android:layout_width="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+>
+    <TextView
+            android:id="@+id/welcomeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/WelcomeText"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/NewGame"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/letterXL"
+    />
+
+    <Button
+            android:id="@+id/NewGame"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/new_game"
+            android:textSize="@dimen/letterL"
+            app:layout_constraintStart_toStartOf="@id/welcomeTV"
+            app:layout_constraintEnd_toEndOf="@id/welcomeTV"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/LoadGame"
+            app:layout_constraintVertical_bias="0.8"
+    />
+    <Button
+            android:id="@+id/LoadGame"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/load_game"
+            android:textSize="@dimen/letterL"
+            app:layout_constraintStart_toStartOf="@id/welcomeTV"
+            app:layout_constraintEnd_toEndOf="@id/welcomeTV"
+            app:layout_constraintTop_toTopOf="@id/NewGame"
+            app:layout_constraintBottom_toBottomOf="@id/AboutUs"
+    />
+    <Button
+            android:id="@+id/AboutUs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/about_us"
+            android:textSize="@dimen/letterL"
+            app:layout_constraintStart_toStartOf="@id/welcomeTV"
+            app:layout_constraintEnd_toEndOf="@id/welcomeTV"
+            app:layout_constraintTop_toTopOf="@id/LoadGame"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.3"
+    />
+
+</android.support.constraint.ConstraintLayout>

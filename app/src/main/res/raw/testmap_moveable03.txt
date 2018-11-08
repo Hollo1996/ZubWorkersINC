@@ -1,0 +1,7 @@
+#Moveables_FourBoxes
+#Field and immediate directional neighbourhood generation by listing all as a spectrum
+Field:(0;0)<=>(3;3)
+Spawn:(1;1)
+Box:(2;1),(1;2),(0;1),(1;0)
+
+

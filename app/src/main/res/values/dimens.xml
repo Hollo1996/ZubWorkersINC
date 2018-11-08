@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="letterL">20sp</dimen>
+    <dimen name="letterXL">30sp</dimen>
+</resources>

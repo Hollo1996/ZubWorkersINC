@@ -1,0 +1,18 @@
+#Neighbourhood_Forcing
+#Field and immediate directional neighbourhood generation by listing all as a spectrum
+Field:(0;0)<=>(3;3)
+#Neighbourhoods overrided by forceing.
+Neighbourhood:
+#Forcing an "(0;0)->(2;2)" connection owerriding the old one: (0;0)-UP>(0;2)
+(0;0)-UP!>(2;2)
+#Forcing an "(2;0)<UP>(0;2)" connection owerriding the old ones: (2;0)-UP>(2;2),(0;2)-DO>(0;0)
+(2;0)<UP!>(0;2)
+#Deletes (1;1)-UP>(1;0) connection
+(1;1)-UP!×>(;)
+#Deletes (0;1)<LE>(0;2) connection
+(0;1)-LE!×>(;)
+#Deletes (0;1)-DO>(1;1) connection
+(1;1)<UP!×-(;)
+#the two kind of "ALL"-s can be used anywhere too.
+
+

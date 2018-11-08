@@ -1,0 +1,5 @@
+#Field_Grouped
+#Field generation by listing two in one  line
+Field:
+(0;0), (1;0)
+(0;1), (1;1)
