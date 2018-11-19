@@ -5,6 +5,35 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".GameSurfaceActivity">
+        tools:context=".GameSurfaceActivity"
+>
+    <boss.zubworkersinc.graphics.bitmap.BitLoader
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/surface"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/WorkersRV"
+
+    />
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/WorkersRV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/AllB"
+            tools:listitem="@layout/worker_column"
+            tools:context=".GameSurfaceActivity"
+    />
+    <Button
+            android:id="@+id/AllB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/control_all"
+    />
+
 
 </android.support.constraint.ConstraintLayout>

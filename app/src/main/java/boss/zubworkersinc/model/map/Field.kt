@@ -70,7 +70,7 @@ class Field(val position: Position, var representation: FieldRepresentation) : M
             rep.onThis = moveable
             moveable.SetField(this)
             if (rep.functionality != null)
-                rep.functionality?.Interact(moveable)
+                rep.functionality?.Interact?.invoke(moveable)
             rep.modified = true
         }
     }
@@ -161,7 +161,7 @@ class Field(val position: Position, var representation: FieldRepresentation) : M
             rep.modified = true
 
             if (rep.functionality != null) {
-                rep.functionality?.Interact(box)
+                rep.functionality?.Interact?.invoke(box)
             }
         }
     }
@@ -184,7 +184,7 @@ class Field(val position: Position, var representation: FieldRepresentation) : M
             rep.modified = true
 
             if (rep.functionality != null) {
-                rep.functionality?.Interact(worker)
+                rep.functionality?.Interact?.invoke(worker)
             }
         }
     }

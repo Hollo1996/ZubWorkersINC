@@ -1,16 +1,17 @@
-package boss.zubworkersinc.console
+package boss.zubworkersinc.graphics.console
 
 import boss.zubworkersinc.basics.BuffererLock
 import boss.zubworkersinc.basics.Position
-import boss.zubworkersinc.console.little.CLFieldRepresentation
+import boss.zubworkersinc.graphics.base.GraphicLoader
+import boss.zubworkersinc.graphics.console.little.CLFieldRepresentation
 import boss.zubworkersinc.model.ModelContainer
 import kotlin.concurrent.thread
 
 
-object charLoader {
+object CharLoader : GraphicLoader {
     var running = 0
     lateinit var Picture: Array<CharArray>
-    var pictureSize = Position()
+    override var pictureSizeInTile: Position =Position()
         set(value) {
             Picture = Array(value.line, { CharArray(value.column) })
             //println("Invalidate SetPictureSize")
@@ -23,7 +24,7 @@ object charLoader {
     var paintLock = BuffererLock("Paint")
 
 
-    fun Start() {
+    override fun Start() {
         if (updater == null)
             initUpdater()
         else
@@ -165,7 +166,7 @@ object charLoader {
     }
 
     @Synchronized
-    fun Invalidate() {
+    override fun Invalidate() {
         updateLock.Notify("Invalidate")
     }
 

@@ -12,7 +12,7 @@ object textLoader {
 
     fun LoadMap(filename: String) {
         // Read the file and display it line by line.val input.bufferedReader().use { it.readText() }
-         ApplicationContextProvider.context?.resources?.openRawResource(R.raw.testmap_field00)?.bufferedReader().use {
+         ApplicationContextProvider.context?.resources?.openRawResource(R.raw.testmap_moveable03)?.bufferedReader().use {
             ModelContainer.fieldsMap.clear()
             ModelContainer.boxes.clear()
             ModelContainer.workers.clear()

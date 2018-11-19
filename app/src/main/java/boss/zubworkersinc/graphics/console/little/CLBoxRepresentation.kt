@@ -1,4 +1,4 @@
-package boss.zubworkersinc.console.little
+package boss.zubworkersinc.graphics.console.little
 
 import boss.zubworkersinc.graphics.base.BoxRepresentation
 import boss.zubworkersinc.model.moveables.Box

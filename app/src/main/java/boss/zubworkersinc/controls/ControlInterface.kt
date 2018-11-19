@@ -5,11 +5,19 @@ import boss.zubworkersinc.model.moveables.Worker
 
 class ControlInterface(val Name:String,var eventKeyMap:Map<ControlKeySettings.ControlEvent, Int>) {
 	//The Entity Controled by the player
+	var workers= mutableListOf<Worker>()
 	var currentWorker: Worker? = null
-	fun hasWorker(): Boolean = (currentWorker!=null)
-	fun AddWorker(w: Worker) {currentWorker=w}
-	fun RemoveWorker() {
-		currentWorker=null
+	fun hasWorker(): Boolean = (workers.size!=0)
+	fun AddWorker(w: Worker) {
+		workers.add(w)
+		currentWorker=w
+	}
+	fun RemoveWorker(w:Worker) {
+		if(currentWorker?.equals(w)?:false)
+			currentWorker=null
+		workers.remove(w)
+		if (workers.size!=0&&currentWorker==null)
+			currentWorker=workers[0]
 		TODO("GameField.OutOfWorkers();")}
 	fun listWorker(point:Int)
 	{

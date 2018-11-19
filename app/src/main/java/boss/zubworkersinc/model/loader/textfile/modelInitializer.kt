@@ -2,9 +2,7 @@ package boss.zubworkersinc.model.loader.textfile
 
 import boss.zubworkersinc.basics.Direction
 import boss.zubworkersinc.basics.Position
-import boss.zubworkersinc.console.charLoader
 import boss.zubworkersinc.model.ModelContainer
-import boss.zubworkersinc.model.features.Feature
 import boss.zubworkersinc.model.map.Field
 import boss.zubworkersinc.model.moveables.Box
 import boss.zubworkersinc.upperleayer.Game
@@ -468,6 +466,6 @@ object modelInitializer {
     }
 
     fun initSize() {
-        charLoader.pictureSize = Position((max!!.column - min!!.column + 1) * 5, (max!!.line - min!!.line + 1) * 3)
+        Game.graphicLoader?.pictureSizeInTile = Position((max!!.column - min!!.column + 1), (max!!.line - min!!.line + 1))
     }
 }

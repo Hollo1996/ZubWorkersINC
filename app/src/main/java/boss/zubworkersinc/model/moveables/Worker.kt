@@ -1,11 +1,11 @@
 package boss.zubworkersinc.model.moveables
 
 import boss.zubworkersinc.basics.Direction
-import boss.zubworkersinc.console.charLoader
 import boss.zubworkersinc.controls.ControlInterface
 import boss.zubworkersinc.controls.Liquid
 import boss.zubworkersinc.graphics.base.MoveableRepresentation
 import boss.zubworkersinc.graphics.base.WorkerRepresentation
+import boss.zubworkersinc.upperleayer.Game
 import boss.zubworkersinc.model.map.Field
 
 class Worker(val strength: Double, _representation: WorkerRepresentation) : Moveable {
@@ -25,7 +25,7 @@ class Worker(val strength: Double, _representation: WorkerRepresentation) : Move
 		inDirection = direction
 		underThis?.LeaveRequest(direction, this)
 		//println("Invalidate Move")
-		charLoader.Invalidate()
+		Game.graphicLoader?.Invalidate()
 	}
 
 	override fun LoadRepresentation() {
@@ -38,9 +38,9 @@ class Worker(val strength: Double, _representation: WorkerRepresentation) : Move
 
 	override fun Destroy() {
 		underThis?.RemoveMoveable()
-		owner?.RemoveWorker()
+		owner?.RemoveWorker(this)
 		//println("Invalidate Destroy")
-		charLoader.Invalidate()
+		Game.graphicLoader?.Invalidate()
 	}
 
 	override fun Accept(v: MoveableVisitor) {
@@ -66,7 +66,7 @@ class Worker(val strength: Double, _representation: WorkerRepresentation) : Move
 			underThis?.rep?.friction = liquid.friction
 		}
 		//println("Invalidate AddLiquid")
-		charLoader.Invalidate()
+		Game.graphicLoader?.Invalidate()
 	}
 
 	// Sets an owner for the worker, Gets the control interface as a parameter

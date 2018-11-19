@@ -1,16 +1,20 @@
 package boss.zubworkersinc.upperleayer
 
-import boss.zubworkersinc.console.ConsoleDataRepresentationFactory
-import boss.zubworkersinc.console.charLoader
+import boss.zubworkersinc.basics.Position
 import boss.zubworkersinc.controls.Control
 import boss.zubworkersinc.graphics.base.DataRepresentationFactory
+import boss.zubworkersinc.graphics.base.GraphicLoader
+import boss.zubworkersinc.graphics.bitmap.BitmapDataRepresentationFactory
+import boss.zubworkersinc.model.ModelContainer
+import boss.zubworkersinc.model.loader.textfile.modelInitializer
 import boss.zubworkersinc.model.loader.textfile.textLoader
+import boss.zubworkersinc.model.moveables.Worker
 import java.io.File
 
 object Game {
-    val viewFactory: DataRepresentationFactory = ConsoleDataRepresentationFactory()
+    val viewFactory: DataRepresentationFactory = BitmapDataRepresentationFactory()
     val mapLoader =textLoader
-    val graphicLoader= charLoader
+    var graphicLoader:GraphicLoader?= null
     val controlLoader = Control
     var state=GameState.Inicialization
 
@@ -46,7 +50,10 @@ object Game {
             return false
 
         mapLoader.LoadMap("testmap_moveable03")
-        graphicLoader.Start()
+        controlLoader.Interface.currentWorker= Worker(modelInitializer.spawnPlaces[0][2].toDouble(), viewFactory.getWorkerdRep())
+        ModelContainer.fieldsMap[Position(modelInitializer.spawnPlaces[0][0],modelInitializer.spawnPlaces[0][1])]?.AddMoveable(controlLoader.Interface.currentWorker as Worker)
+
+        graphicLoader?.Start()
         controlLoader.readKeyLoop()
 
         state = GameState.InGame

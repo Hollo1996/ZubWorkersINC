@@ -2,7 +2,7 @@ package boss.zubworkersinc.controls
 
 import android.view.KeyEvent
 import boss.zubworkersinc.basics.BuffererLock
-import boss.zubworkersinc.console.charLoader
+import boss.zubworkersinc.graphics.console.CharLoader
 import kotlin.concurrent.thread
 
 object Control {
@@ -89,7 +89,7 @@ object Control {
                 }
 
                 if (Interface.keyHandler(this, keyCode)) {
-                    charLoader.Invalidate()
+                    CharLoader.Invalidate()
                     //println("Invalidated")
                 }
             }
