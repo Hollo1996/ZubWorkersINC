@@ -1,9 +1,9 @@
 package boss.zubworkersinc.graphics.base
 
 import boss.zubworkersinc.basics.Direction
-import boss.zubworkersinc.model.moveables.Worker
+import boss.zubworkersinc.models.movables.Worker
 
-interface WorkerRepresentation:MoveableRepresentation {
+interface WorkerRepresentation:MovableRepresentation {
 	var Owner: Worker
 	var InDirection: Direction
 }

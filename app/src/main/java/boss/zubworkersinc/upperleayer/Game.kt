@@ -1,82 +1,93 @@
 package boss.zubworkersinc.upperleayer
 
+import boss.zubworkersinc.basics.LifeCicle
+import boss.zubworkersinc.basics.LifeState
 import boss.zubworkersinc.basics.Position
-import boss.zubworkersinc.controls.Control
-import boss.zubworkersinc.graphics.base.DataRepresentationFactory
-import boss.zubworkersinc.graphics.base.GraphicLoader
-import boss.zubworkersinc.graphics.bitmap.BitmapDataRepresentationFactory
-import boss.zubworkersinc.model.ModelContainer
-import boss.zubworkersinc.model.loader.textfile.modelInitializer
-import boss.zubworkersinc.model.loader.textfile.textLoader
-import boss.zubworkersinc.model.moveables.Worker
+import boss.zubworkersinc.controls.base.ControlFactory
+import boss.zubworkersinc.controls.key.KControlFactory
+import boss.zubworkersinc.graphics.base.GraphicFactory
+import boss.zubworkersinc.graphics.bitmap.little.BLGraphicFactory
+import boss.zubworkersinc.models.ModelContainer
+import boss.zubworkersinc.datas.base.ModelFactory
+import boss.zubworkersinc.datas.textfile.TModelFactory
+import boss.zubworkersinc.datas.textfile.TModelInitializer
+import boss.zubworkersinc.models.movables.Worker
 import java.io.File
 
-object Game {
-    val viewFactory: DataRepresentationFactory = BitmapDataRepresentationFactory()
-    val mapLoader =textLoader
-    var graphicLoader:GraphicLoader?= null
-    val controlLoader = Control
-    var state=GameState.Inicialization
+object Game : LifeCicle() {
+    var graphicFactory: GraphicFactory<Any>? = null
+    var modelFactory: ModelFactory? = null
+    var controlFactory: ControlFactory? = null
 
-    //Loads Command from a txt
-    fun LoadCommand(nameOfTxt: String) = File(nameOfTxt+".txt").useLines { lines -> lines.forEach { CommandHandler(it) } }
 
-    //Reads Commands from the standard input
-    fun CommandLoop() {
-        var command: String = ""
-        while ("Close".compareTo(command) != 0) {
-            if ("".compareTo(command) != 0)
-                CommandHandler(command)
-            command = readLine() ?: ""
+    override fun createInner() {
+        synchronized(state) {
+            if (state != LifeState.Destroyed)
+                return
+            else
+                state = LifeState.Created
         }
+
+
+        @Suppress("UNCHECKED_CAST")
+        graphicFactory = graphicFactory ?: BLGraphicFactory as GraphicFactory<Any>
+        modelFactory = modelFactory ?: TModelFactory
+        controlFactory = controlFactory ?: KControlFactory
     }
 
-    //Handles all command loaded from TXT
-    fun CommandHandler(command: String): Boolean {
-        val commandAndParams: List<String> = command.split(' ')
-        when (commandAndParams[0]) {
-            "Start:" -> Start()
-            "Stop:" -> Stop()
-            "Load:" -> Load()
-            "Save:" -> Save()
-            else -> return false
-        }
-        return true
+    override fun destroyInner() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    //Starts a whole new game
-    fun Start(): Boolean {
-        if (state==GameState.InGame)
-            return false
+    override fun startInner() {
+        if (state != LifeState.Created)
+            return
 
-        mapLoader.LoadMap("testmap_moveable03")
-        controlLoader.Interface.currentWorker= Worker(modelInitializer.spawnPlaces[0][2].toDouble(), viewFactory.getWorkerdRep())
-        ModelContainer.fieldsMap[Position(modelInitializer.spawnPlaces[0][0],modelInitializer.spawnPlaces[0][1])]?.AddMoveable(controlLoader.Interface.currentWorker as Worker)
+        modelFactory?.getModelLoader()?.loadMap("testmap_moveable03")
+        controlFactory?.getControl()?.Interface?.currentWorker =
+                Worker(TModelInitializer.spawnPlaces[0][2].toDouble(), graphicFactory!!.getWorkerRep())
+        ModelContainer.fieldsMap[Position(
+            TModelInitializer.spawnPlaces[0][0],
+            TModelInitializer.spawnPlaces[0][1]
+        )]?.AddMoveable(controlFactory?.getControl()?.Interface?.currentWorker as Worker)
+        graphicFactory?.getGraphicLoader()?.start()
+        controlFactory?.getControl()?.readKeyLoop()
 
-        graphicLoader?.Start()
-        controlLoader.readKeyLoop()
-
-        state = GameState.InGame
-
-        return true
+        state = LifeState.Started
     }
 
-    //Stops the current game
-    fun Stop(): Boolean {
-        return state==GameState.InGame
-        //TODO
+    override fun stopInner() {
+        if (state != LifeState.Started)
+            return
+
+        state = LifeState.Created
+    }
+
+    override fun pauseInner() {
+        if (state != LifeState.Started)
+            return
+
+        state = LifeState.Created
+    }
+
+    override fun resumeInner() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     //Loads Saved }
-    fun Load(): Boolean {
-        return state==GameState.Inicialization
-        //TODO
+    fun Load() {
+        if (state != LifeState.Started)
+            return
+
+        state = LifeState.Created
     }
 
     //Saves current Game
-    fun Save(): Boolean {
-        return state==GameState.InGame
-        //TODO
+    fun Save() {
+        if (state != LifeState.Started)
+            return
+
+        state = LifeState.Created
     }
 
 

@@ -1,9 +1,10 @@
 package boss.zubworkersinc.graphics.bitmap.little
 
+import android.graphics.Color
 import boss.zubworkersinc.basics.Direction
+import boss.zubworkersinc.graphics.EasyWeightMap
 import boss.zubworkersinc.graphics.base.WorkerRepresentation
-import boss.zubworkersinc.graphics.bitmap.EasyWeightBitMap
-import boss.zubworkersinc.model.moveables.Worker
+import boss.zubworkersinc.models.movables.Worker
 import java.util.*
 
 class BLWorkerRepresentation : WorkerRepresentation, BLRepresentation {
@@ -12,61 +13,61 @@ class BLWorkerRepresentation : WorkerRepresentation, BLRepresentation {
     private var idColor = Random().nextInt()
 
     companion object {
-        private val forGColor = 0x8B4513.toInt()
-        private val backGColor = 0x00000000.toInt()
-        private val _representationUP = EasyWeightBitMap(
-            intArrayOf(
-                forGColor, backGColor, forGColor,
-                forGColor, backGColor, forGColor,
-                forGColor, forGColor, forGColor
-            ), 3
+        private val forGColor = Color.GREEN
+        private val backGColor = Color.TRANSPARENT
+        private val representationUP = EasyWeightMap(
+            arrayOf(
+                backGColor, forGColor, backGColor,
+                backGColor, forGColor, backGColor,
+                backGColor, backGColor, backGColor
+            ), 3, 0
         )
-        private val _representationRIGHT = EasyWeightBitMap(
-            intArrayOf(
-                forGColor, forGColor, forGColor,
-                forGColor, backGColor, backGColor,
-                forGColor, forGColor, forGColor
-            ), 3
+        private val representationRIGHT = EasyWeightMap(
+            arrayOf(
+                backGColor, backGColor, backGColor,
+                backGColor, forGColor, forGColor,
+                backGColor, backGColor, backGColor
+            ), 3, 0
         )
-        private val _representationDOWN = EasyWeightBitMap(
-            intArrayOf(
-                forGColor, forGColor, forGColor,
-                forGColor, backGColor, forGColor,
-                forGColor, backGColor, forGColor
-            ), 3
+        private val representationDOWN = EasyWeightMap(
+            arrayOf(
+                backGColor, backGColor, backGColor,
+                backGColor, forGColor, backGColor,
+                backGColor, forGColor, backGColor
+            ), 3, 0
         )
-        private val _representationLEFT = EasyWeightBitMap(
-            intArrayOf(
-                forGColor, forGColor, forGColor,
-                backGColor, backGColor, forGColor,
-                forGColor, forGColor, forGColor
-            ), 3
+        private val representationLEFT = EasyWeightMap(
+            arrayOf(
+                backGColor, backGColor, backGColor,
+                forGColor, forGColor, backGColor,
+                backGColor, backGColor, backGColor
+            ), 3, 0
         )
     }
 
-    override var representation = _representationUP
+    override var representation = representationUP
         get() {
-            Owner.LoadRepresentation()
+            Owner.loadRepresentation()
             when (InDirection) {
                 Direction.UP -> {
-                    _representationUP[7] = idColor
-                    return _representationUP
+                    representationUP[7] = idColor
+                    return representationUP
                 }
                 Direction.DOWN -> {
-                    _representationRIGHT[3] = idColor
-                    return _representationRIGHT
+                    representationRIGHT[3] = idColor
+                    return representationRIGHT
                 }
                 Direction.LEFT -> {
-                    _representationDOWN[2] = idColor
-                    return _representationDOWN
+                    representationDOWN[2] = idColor
+                    return representationDOWN
                 }
                 Direction.RIGHT -> {
-                    _representationLEFT[5] = idColor
-                    return _representationLEFT
+                    representationLEFT[5] = idColor
+                    return representationLEFT
                 }
                 Direction.NONE -> {
-                    _representationUP[7] = idColor
-                    return _representationUP
+                    representationUP[7] = idColor
+                    return representationUP
                 }
             }
 

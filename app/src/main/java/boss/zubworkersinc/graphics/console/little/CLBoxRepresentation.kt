@@ -1,22 +1,23 @@
 package boss.zubworkersinc.graphics.console.little
 
 import boss.zubworkersinc.graphics.base.BoxRepresentation
-import boss.zubworkersinc.model.moveables.Box
+import boss.zubworkersinc.graphics.EasyWeightMap
+import boss.zubworkersinc.models.movables.Box
 
 class CLBoxRepresentation : BoxRepresentation, CLRepresentation {
     override lateinit var Owner: Box
     override var pushedBy: String? = null
-    private var _representation = arrayOf<Array<Char>>(arrayOf('W'))
+    companion object {
+        private var _representation = EasyWeightMap(Array(1) { 'H' }, 1, ' ')
+    }
     override var representation = _representation
         get() {
-            Owner.LoadRepresentation()
-            var pusherIndex = -1
-            TODO("""if (pushedBy!=null&& GameField.relavantControl!!.Name.compareTo(pushedBy as String) == 0)
-                pusherIndex = 0""")
+            Owner.loadRepresentation()
+            val pusherIndex = -1
             if (pusherIndex >= 0)
-                _representation[0][0] = pusherIndex.toString().toCharArray()[0]
+                _representation[0] = pusherIndex.toString().toCharArray()[0]
             else
-                _representation[0][0] = 'H'
+                _representation[0] = 'H'
 
             return _representation
 

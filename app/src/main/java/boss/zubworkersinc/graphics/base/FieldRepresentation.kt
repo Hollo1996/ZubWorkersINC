@@ -1,6 +1,6 @@
 package boss.zubworkersinc.graphics.base
 
-import boss.zubworkersinc.model.map.Field
+import boss.zubworkersinc.models.map.Field
 
 
 interface FieldRepresentation {

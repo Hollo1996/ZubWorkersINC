@@ -1,7 +1,7 @@
 package boss.zubworkersinc.graphics.bitmap.little
 
-import boss.zubworkersinc.graphics.bitmap.EasyWeightBitMap
+import boss.zubworkersinc.graphics.EasyWeightMap
 
 interface BLRepresentation {
-	var representation: EasyWeightBitMap
+	var representation: EasyWeightMap<Int>
 }

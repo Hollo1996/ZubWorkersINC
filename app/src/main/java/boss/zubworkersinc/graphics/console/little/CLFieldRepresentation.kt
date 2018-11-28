@@ -3,94 +3,109 @@ package boss.zubworkersinc.graphics.console.little
 import boss.zubworkersinc.basics.Direction
 import boss.zubworkersinc.basics.Position
 import boss.zubworkersinc.controls.Liquid
+import boss.zubworkersinc.graphics.EasyWeightMap
 import boss.zubworkersinc.graphics.base.FieldRepresentation
-import boss.zubworkersinc.model.ModelContainer
-import boss.zubworkersinc.model.map.Field
-import boss.zubworkersinc.model.moveables.Moveable
+import boss.zubworkersinc.models.ModelContainer
+import boss.zubworkersinc.models.map.Field
+import boss.zubworkersinc.models.movables.Movable
 
 class CLFieldRepresentation : FieldRepresentation, CLRepresentation {
+    enum class wallType{
+        NONE,WALL,SYNC,ASYNC
+    }
+
     override lateinit var Data: Field.RepresentableData
+
+    companion object {
+        val portalSide = '~'
+        val syncronPortal = 'O'
+        val asyncronPortal = '@'
+        val wallH = '-'
+        val wallV = '|'
+        val honey = 'm'
+        val oil = '~'
+        val corner = '+'
+        val empty = ' '
+        private val verticalWalls: Array<Char>
+            get() = arrayOf(empty, wallV, syncronPortal, asyncronPortal)
+        private val horizontalWalls: Array<EasyWeightMap<Char>>
+            get() = arrayOf(
+                EasyWeightMap(arrayOf(empty, empty, empty), 3, ' '),
+                EasyWeightMap(arrayOf(wallH, wallH, wallH), 3, ' '),
+                EasyWeightMap(arrayOf(portalSide, syncronPortal, portalSide), 3, ' '),
+                EasyWeightMap(arrayOf(portalSide, asyncronPortal, portalSide), 3, ' ')
+                )
+        private val defRepresentation: EasyWeightMap<Char>
+            get() = EasyWeightMap(
+                arrayOf(
+                    corner, wallH, wallH, wallH, corner,
+                    wallV, empty, empty, empty, wallV,
+                    corner, wallH, wallH, wallH, corner
+                ), 5, ' '
+            )
+    }
+
+    private var _representation = defRepresentation
 
     var start = true
 
-    companion object {
-        val horizontalOuterWalls = arrayOf(' ', '-', '~', '~')
-        val horizontalInnerWalls = arrayOf(' ', '-', 'O', '@')
-        val verticalWalls = arrayOf(' ', '|', 'O', '@')
-        val liquid = arrayOf('m', '~')
-        val corner = '+'
-        val empty = ' '
-    }
-
-    private var _representation = arrayOf<Array<Char>>(
-            arrayOf<Char>('*', '-', '-', '-', '*'),
-            arrayOf<Char>('|', ' ', ' ', ' ', '|'),
-            arrayOf<Char>('*', '-', '-', '-', '*'))
-
-
-    override var representation=_representation
+    override var representation = _representation
         get() {
             synchronized(_representation) {
                 synchronized(Data.modified) {
                     Data.modified = false
                 }
 
+                _representation.drawOn(defRepresentation, Position())
+
                 if (Data.functionality != null)
-                    _representation[1][1] = ((Data.functionality!!.representation) as CLRepresentation).representation[0][0]
-                else
-                    _representation[1][1] = empty
+                    _representation[1, 1] =
+                            ((Data.functionality!!.representation) as CLRepresentation).representation[0]
 
                 if (Data.onThis != null)
-                    _representation[1][2] = ((Data.onThis as Moveable).representation as CLRepresentation).representation[0][0]
-                else
-                    _representation[1][2] = empty
+                    _representation[1, 2] =
+                            ((Data.onThis as Movable).representation as CLRepresentation).representation[0]
 
                 if (Data.friction == Liquid.Honey.friction)
-                    _representation[1][3] = liquid[0]
+                    _representation[1, 3] = honey
                 else if (Data.friction == Liquid.Oil.friction)
-                    _representation[1][3] = liquid[1]
-                else
-                    _representation[1][3] = empty
-
-
-                //_representation[1][1]=Data.Self?.position?.column.toString()[0]
-                //_representation[1][3]=Data.Self?.position?.line.toString()[0]
+                    _representation[1, 3] = oil
 
 
                 if (start) {
                     var d: Direction
-                    var selfPosition: Position = Data.Self!!.position
+                    val selfPosition: Position = Data.Self!!.position
                     var neighbourPosition: Position
-                    var index: Int
+                    var index: wallType
 
-                    for (i in 0..3)
-                        _representation[(i / 2) * 2][(((i + 1) % 4) / 2) * 4] = corner
+                    for (i in arrayOf(0, 4, 10, 14))
+                        _representation[i] = corner
 
                     for (i in 1..4) {
                         d = Direction.values()[i]
-                        if (!Data.IsIsolated && (Data.Self as Field)[d]!=null) {
+                        if (!Data.IsIsolated && (Data.Self as Field)[d] != null) {
                             neighbourPosition = (Data.Self as Field)[d] as Position
                             if (neighbourPosition.column != selfPosition.column + d.vector.column ||
-                                    neighbourPosition.line != selfPosition.line + d.vector.line) {
-                                if (ModelContainer.fieldsMap[neighbourPosition]!![d.GetReverse()]!=null &&
-                                        ModelContainer.fieldsMap[neighbourPosition]!![d.GetReverse()] == selfPosition)
-                                    index = 2
+                                neighbourPosition.line != selfPosition.line + d.vector.line
+                            ) {
+                                if (ModelContainer.fieldsMap[neighbourPosition]!![d.GetReverse()] != null &&
+                                    ModelContainer.fieldsMap[neighbourPosition]!![d.GetReverse()] == selfPosition
+                                )
+                                    index = wallType.SYNC
                                 else
-                                    index = 3
+                                    index = wallType.ASYNC
                             } else
-                                index = 0
+                                index = wallType.NONE
                         } else {
-                            index = 1
+                            index = wallType.WALL
                         }
 
 
 
-                        if ((d.ordinal-1) % 2 == 0) {
-                            _representation[1 + d.vector.line][1] = horizontalOuterWalls[index]
-                            _representation[1 + d.vector.line][2] = horizontalInnerWalls[index]
-                            _representation[1 + d.vector.line][3] = horizontalOuterWalls[index]
+                        if ((d.ordinal - 1) % 2 == 0) {
+                            _representation.drawOn(horizontalWalls[index.ordinal],Position(1,1 + d.vector.line))
                         } else {
-                            _representation[1][2 + (d.vector.column * 2)] = verticalWalls[index]
+                            _representation[1,2 + (d.vector.column * 2)] = verticalWalls[index.ordinal]
                         }
                     }
                     start = false

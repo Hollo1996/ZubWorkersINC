@@ -1,5 +1,8 @@
 package boss.zubworkersinc.graphics.console.little
 
+import boss.zubworkersinc.graphics.EasyWeightMap
+
+
 interface CLRepresentation {
-	var representation:Array<Array<Char>>
+	var representation: EasyWeightMap<Char>
 }

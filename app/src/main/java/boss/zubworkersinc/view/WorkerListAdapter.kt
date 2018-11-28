@@ -19,7 +19,7 @@ class WorkerListAdapter(val context: Context,val items: MutableList<WorkerRepres
     }
 
     override fun onBindViewHolder(holder: WorkerHolder, position: Int) {
-        val name = items[holder.adapterPosition].Owner.GetName()
+        val name = items[holder.adapterPosition].Owner.getName()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkerHolder {
